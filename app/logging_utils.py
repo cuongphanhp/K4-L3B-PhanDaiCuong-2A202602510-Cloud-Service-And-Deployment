@@ -34,7 +34,9 @@ def log_event(event: str, level: str = "info", **fields) -> str:
         >>> log_event("ask_completed", user_id="sv01", cost_usd=0.0001)
         '{"event": "ask_completed", "level": "info", "timestamp": "...", ...}'
     """
-    log_data = {"event": event, "level": level, "timestamp": utc_now_iso()}
+    log_data = {"event": event, "level": level.lower(), "timestamp": utc_now_iso()}
     log_data.update(fields)
     log_line = json.dumps(log_data, ensure_ascii=False)
+    print(log_line)
     return log_line
+
