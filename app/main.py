@@ -19,7 +19,8 @@ from functools import lru_cache
 from fastapi import Depends, FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
-
+import time
+from datetime import datetime, timezone
 from utils.mock_llm import ask_llm
 
 from .auth import verify_api_key
@@ -87,7 +88,12 @@ def health():
     lời câu hỏi "có cần restart container này không?". Nếu nó phụ thuộc
     Redis, Redis chết một nhịp là cả cụm container bị restart theo.
     """
-    raise NotImplementedError("TODO (CP1/CP4): cài đặt /health")
+    return {
+        "status": "ok",
+        "service": SERVICE_NAME,
+        "version": SERVICE_VERSION,
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    }
 
 
 @app.get("/ready")
